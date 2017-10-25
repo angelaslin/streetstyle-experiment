@@ -10,6 +10,8 @@ def fetch_entry(line):
         split[0] = int(split[0])
         # remove the newline
         split[-1] = split[-1][:-1]
+        # generate a local url
+        split[1] = '../data/streetstyle27k/' + split[1][33] + '/' + split[1][34] + '/' + split[1][35] + '/' + split[1][33:]
         return tuple(split)
     else:
         return None
