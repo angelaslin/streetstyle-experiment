@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sqlite3
-from pdb import set_trace
 
 def fetch_entry(line):
     split = line.split(',')
