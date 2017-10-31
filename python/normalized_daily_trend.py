@@ -5,6 +5,7 @@ from datetime import datetime
 from pytz import timezone
 from collections import defaultdict
 import matplotlib.pyplot as plt
+import numpy as np
 
 timezones = [timezone('Asia/Bangkok'),
              timezone('Asia/Shanghai'),
@@ -74,8 +75,8 @@ def get_all_uploads(cursor):
 def main():
     # specify settings
     db_name = '../data/streetstyle27k.db'
-    fields = ['wearing_glasses']
-    values = ['\'Yes\'']
+    fields = ['major_color','major_color']
+    values = ['\'Black\'','\'White\'']
     markers = ['ro','go']
     # open sqlite3 database
     conn = sqlite3.connect(db_name)
@@ -101,8 +102,15 @@ def main():
                 # assign to daily grid
                 time_bins[int(24.0*frac_day)].append(e[0])
         # plot as an hourly chart
-        plt.plot([tb for tb in time_bins.keys()], [len(tb)/float(tot) for tb,tot in zip(time_bins.values(),total)], m)
+        x_vals = [tb for tb in time_bins.keys()]
+        normal_y_vals = [len(tb)/float(tot) for tb,tot in zip(time_bins.values(),total)]
+        plt.plot(x_vals, normal_y_vals, m)
+        z = np.poly1d(np.polyfit(np.array(x_vals),np.array(normal_y_vals),3))
+        plt.plot(x_vals, [z(tb) for tb in time_bins.keys()])
     plt.grid(True)
+    plt.xlabel('Hour of day')
+    plt.ylabel('Positive samples')
+    plt.title('Black for the Nights')
     plt.show()
     conn.close()
 
