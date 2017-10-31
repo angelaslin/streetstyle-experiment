@@ -5,7 +5,6 @@ import numpy as np
 from sklearn.cluster import KMeans
 from collections import defaultdict
 import matplotlib.pyplot as plt
-from pdb import set_trace
 
 attributes = {}
 attributes['clothing_pattern'] = ['Solid','Graphics','Striped','Floral','Plaid','Spotted','']

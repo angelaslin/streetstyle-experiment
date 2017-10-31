@@ -6,6 +6,7 @@ from pytz import timezone
 from collections import defaultdict
 import matplotlib.pyplot as plt
 import numpy as np
+from itertools import cycle
 
 timezones = [timezone('Asia/Bangkok'),
              timezone('Asia/Shanghai'),
@@ -51,6 +52,8 @@ timezones = [timezone('Asia/Bangkok'),
              timezone('US/Central'),
              timezone('US/Pacific'),
              timezone('Asia/Singapore')]
+colors = cycle(['r', 'b', 'g', 'c', 'm', 'y', 'k'])
+markers = cycle(('o','^','v','s'))
 
 def get_all_uploads(cursor):
     entries = cursor.execute("SELECT id,city_id,created_time FROM streetstyle27k")
