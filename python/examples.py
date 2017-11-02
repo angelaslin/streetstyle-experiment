@@ -5,19 +5,19 @@ import os.path
 from shutil import copyfile
 
 attributes_dict = {
-    'wearing_jacket' : ['\'Yes\'', '\'No\''],
-    'collar_presence' : ['\'Yes\'', '\'No\''],
-    'wearing_scarf' : ['\'Yes\'', '\'No\''],
-    'wearing_necktie' : ['\'Yes\'', '\'No\''],
-    'wearing_hat' : ['\'Yes\'', '\'No\''],
-    'wearing_glasses' :  ['\'Yes\'', '\'No\''],
-    'multiple_layers' : ['\'One layer\'', '\'Multiple layers\''],
-    'major_color' : ['\'Black\'', '\'White\'', '\'More than 1 color\'', '\'Blue\'', '\'Gray\'', '\'Red\'', '\'Pink\'', '\'Green\'',
-                     '\'Yellow\'', '\'Brown\'', '\'Purple\'', '\'Orange\'', '\'Cyan\''],
-    'clothing_category' : ['\'Shirt\'', '\'Outerwear\'', '\'T-shirt\'', '\'Dress\'', '\'Tank top\'', '\'Suit\'', '\'Sweater\''],
-    'sleeve_length' : ['\'Long sleeve\'', '\'Short sleeve\'', '\'No sleeve\''],
-    'neckline_shape' : ['\'Round\'', '\'Folded\'', '\'V-shape\''],
-    'clothing_pattern' : ['\'Solid\'', '\'Graphics\'', '\'Striped\'', '\'Floral\'', '\'Plaid\'', '\'Spotted\'']
+    'wearing_jacket' : ['Yes', 'No'],
+    'collar_presence' : ['Yes', 'No'],
+    'wearing_scarf' : ['Yes', 'No'],
+    'wearing_necktie' : ['Yes', 'No'],
+    'wearing_hat' : ['Yes', 'No'],
+    'wearing_glasses' :  ['Yes', 'No'],
+    'multiple_layers' : ['One layer', 'Multiple layers'],
+    'major_color' : ['Black', 'White', 'More than 1 color', 'Blue', 'Gray', 'Red', 'Pink', 'Green',
+                     'Yellow', 'Brown', 'Purple', 'Orange', 'Cyan'],
+    'clothing_category' : ['Shirt', 'Outerwear', 'T-shirt', 'Dress', 'Tank top', 'Suit', 'Sweater'],
+    'sleeve_length' : ['Long sleeve', 'Short sleeve', 'No sleeve'],
+    'neckline_shape' : ['Round', 'Folded', 'V-shape'],
+    'clothing_pattern' : ['Solid', 'Graphics', 'Striped', 'Floral', 'Plaid', 'Spotted']
 }
 
 def get_examples():
@@ -30,7 +30,7 @@ def get_examples():
     # open sqlite3 database
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
-    query = "SELECT id, url FROM streetstyle27k WHERE {}={} LIMIT 10"
+    query = "SELECT id, url FROM streetstyle27k WHERE {}=? LIMIT 10"
     for attribute, values in attributes_dict.iteritems():
         attribute_path = os.path.join(examples_path, attribute)
         try:
@@ -43,7 +43,7 @@ def get_examples():
                 os.mkdir(value_path)
             except OSError:
                 pass
-            entries = cursor.execute(query.format(attribute, value))   
+            entries = cursor.execute(query.format(attribute), value)   
             for entry in entries:
                 image_path = entry[1]
                 image_id = entry[0]
