@@ -59,16 +59,19 @@ def compute_highest_combo_counts(cooccurrence_counts):
             if attribute_index1 == attribute_index2:
                 continue
             attribute2 = attributes[attribute_index2]
-            combo, count = filtered_max(cooccurrence_counts[attribute1][attribute2]) 
-            highest_combo_counts.append((attribute1, attribute2, combo[0], combo[1], count))
+            for value2 in attributes_dict[attribute2]:
+                combo, count = filtered_max(cooccurrence_counts[attribute1][attribute2], value2) 
+                highest_combo_counts.append((attribute1, attribute2, combo[0], combo[1], count))
     highest_combo_counts = sorted(highest_combo_counts, key=lambda x:x[4], reverse=True)
     return highest_combo_counts
 
 
-def filtered_max(cooccurrence_dict):
+def filtered_max(cooccurrence_dict, given_value2):
     maximum_count = 0
     maximum_combination = None
     for value1, value2 in cooccurrence_dict:
+        if value2 != given_value2:
+            continue
         current_count = cooccurrence_dict[(value1, value2)]
         if current_count > maximum_count:
             maximum_combination = (value1, value2)
